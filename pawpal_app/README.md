@@ -18,16 +18,16 @@
 1. dbconnect.php
    handle the database connection
    
-2.login.php
+2. login.php
   handle user login and authentication
   
-3.register_user
+3. register_user
   handle user registration and encryp password and check email already
   
-4.get_my_pets.php
+4. get_my_pets.php
   to load everything about pets and load pets based on search query
   
-5.submit_pets.php
+5. submit_pets.php
   handle submissionof pets and imagesof the pets
 
 # Sample JSON Response
