@@ -1,6 +1,7 @@
 # Pawpal Pet Adaption and Donation
 
 #Setup
+
 1. install the dependencies and run the command :
    flutter pub get
 2. install Xampp
@@ -9,6 +10,7 @@
 5. Run the app
 
 #API explanation
+
 1. dbconnect.php
    handle the database connection
 2.login.php
