@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 23, 2025 at 04:33 PM
+-- Generation Time: Dec 04, 2025 at 06:34 PM
 -- Server version: 8.0.19
 -- PHP Version: 8.2.1
 
@@ -24,6 +24,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_pets`
+--
+
+CREATE TABLE `tbl_pets` (
+  `pet_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `pet_name` varchar(100) NOT NULL,
+  `pet_type` varchar(50) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `image_path` text NOT NULL,
+  `lat` varchar(50) NOT NULL,
+  `lng` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_users`
 --
 
@@ -37,8 +56,21 @@ CREATE TABLE `tbl_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`user_id`, `user_name`, `user_email`, `user_phone`, `user_password`, `reg_date`) VALUES
+(38, 'alif', 'alif@gmail.com', '1234567', '20eabe5d64b0e216796e834f52d61fd0b70332fc', '2025-12-04 21:07:51');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_pets`
+--
+ALTER TABLE `tbl_pets`
+  ADD PRIMARY KEY (`pet_id`);
 
 --
 -- Indexes for table `tbl_users`
@@ -51,10 +83,16 @@ ALTER TABLE `tbl_users`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_pets`
+--
+ALTER TABLE `tbl_pets`
+  MODIFY `pet_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
