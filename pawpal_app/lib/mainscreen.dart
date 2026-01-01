@@ -105,7 +105,15 @@ class _MainScreenState extends State<MainScreen> {
                                           0.22, // balanced aspect ratio
                                       color: Colors.grey[200],
                                       child: Image.network(
-                                        '${MyConfig.baseUrl}/pawpal/assets/pets/pets_${listPets[index].petId}.png',
+                                        listPets[index].thumbnail != null &&
+                                                listPets[index]
+                                                    .thumbnail!
+                                                    .isNotEmpty
+                                            ? (listPets[index].thumbnail!
+                                                      .startsWith('http')
+                                                  ? listPets[index].thumbnail!
+                                                  : '${MyConfig.baseUrl}${listPets[index].thumbnail!.replaceFirst('..', '')}')
+                                            : '',
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, error, stackTrace) {

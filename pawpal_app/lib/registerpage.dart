@@ -287,6 +287,7 @@ class _RegisterState extends State<Register> {
               if (!mounted) return;
               SnackBar snackBar = const SnackBar(
                 content: Text('Registration successful'),
+                backgroundColor: Colors.green,
               );
 
               //nak check if loading dialog is still open

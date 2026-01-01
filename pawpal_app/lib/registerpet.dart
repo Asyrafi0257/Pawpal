@@ -651,7 +651,7 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
           if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("Service submitted successfully"),
+              content: Text("Register submitted successfully"),
               backgroundColor: Colors.green,
             ),
           );

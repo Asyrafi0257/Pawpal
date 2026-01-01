@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 class Mypets {
+  String? thumbnail;
   String? petId;
   String? userId;
   String? petName;
   String? petType;
   String? category;
   String? descriptions;
-  String? imagePath;
+  List<String>? imagePath;
   String? lat;
   String? lng;
   String? createAt;
@@ -24,6 +27,7 @@ class Mypets {
     this.category,
     this.descriptions,
     this.imagePath,
+    this.thumbnail,
     this.lat,
     this.lng,
     this.createAt,
@@ -40,7 +44,26 @@ class Mypets {
     petType = json['pet_type'];
     category = json['category'];
     descriptions = json['descriptions'];
-    imagePath = json['image_path'];
+    // Decode image_path JSON array
+    if (json['image_path'] != null) {
+      if (json['image_path'] is String) {
+        try {
+          imagePath = List<String>.from(jsonDecode(json['image_path']));
+        } catch (e) {
+          imagePath = [json['image_path']];
+        }
+      } else if (json['image_path'] is List) {
+        imagePath = List<String>.from(json['image_path']);
+      }
+    }
+    // Get thumbnail from API or fallback to first imagePath
+    if (json['thumbnail'] != null && json['thumbnail'] is String) {
+      thumbnail = json['thumbnail'];
+    } else if (imagePath != null && imagePath!.isNotEmpty) {
+      thumbnail = imagePath![0];
+    } else {
+      thumbnail = null;
+    }
     lat = json['lat'];
     lng = json['lng'];
     createAt = json['create_at'];
@@ -60,7 +83,9 @@ class Mypets {
     data['pet_type'] = petType;
     data['category'] = category;
     data['descriptions'] = descriptions;
-    data['image_path'] = imagePath;
+    // Encode imagePath as JSON string
+    data['image_path'] = imagePath != null ? jsonEncode(imagePath) : null;
+    data['thumbnail'] = thumbnail;
     data['lat'] = lat;
     data['lng'] = lng;
     data['create_at'] = createAt;
