@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MainScreen(),
+                        builder: (context) => Mainscreen(user: widget.user),
                       ),
                     );
                   },

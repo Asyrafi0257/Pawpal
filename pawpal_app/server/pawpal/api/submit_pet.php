@@ -45,7 +45,7 @@ try{
 		$imagePaths = array();
 		foreach ($images as $idx => $img) {
 			$decoded = base64_decode($img);
-			$imgPath = "../assets/pets/pets_".$last_id."_".($idx+1).".png";
+			$imgPath = "../assets/pets/pets_".$last_id.($idx+1).".png";
 			file_put_contents($imgPath, $decoded);
 			$imagePaths[] = $imgPath;
 		}
