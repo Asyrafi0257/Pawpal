@@ -5,7 +5,6 @@ include 'dbconnect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    // join query to fetch pet and user details
     $query = "
         SELECT 
             p.pet_id,
@@ -14,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             p.pet_type,
             p.category,
             p.description,
+            p.gender,
+            p.age,
+            p.health,
             p.image_path,
             p.lat,
             p.lng,
@@ -28,13 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $conditions = [];
 
-    // filter ikut user_id (kepunyaan dia sahaja)
-    if (!empty($_GET['user_id'])) {
-        $user_id = $conn->real_escape_string($_GET['user_id']);
-        $conditions[] = "p.user_id = '$user_id'";
-    }
-
-    // search
     if (!empty($_GET['search'])) {
         $search = $conn->real_escape_string($_GET['search']);
         $conditions[] = "(
@@ -42,10 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             OR p.pet_type LIKE '%$search%'
             OR p.category LIKE '%$search%'
             OR p.description LIKE '%$search%'
+            OR p.gender LIKE '%$search%'
+            OR p.age LIKE '%$search%'
+            OR p.health LIKE '%$search%'
         )";
     }
 
-    // gabung WHERE clause
+    if (!empty($_GET['filter'])) {
+        $filter = $conn->real_escape_string($_GET['filter']);
+        $conditions[] = "p.pet_type = '$filter'";
+    }
+
     if (!empty($conditions)) {
         $query .= " WHERE " . implode(" AND ", $conditions);
     }

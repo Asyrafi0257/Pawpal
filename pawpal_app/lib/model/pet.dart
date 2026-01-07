@@ -6,6 +6,9 @@ class Pet {
   String? category;
   String? description;
   List<String> imagePath = [];
+  String? gender; // tambahan
+  String? age; // tambahan
+  String? health; // tambahan
   String? lat;
   String? lng;
   String? createdAt;
@@ -22,6 +25,9 @@ class Pet {
     this.category,
     this.description,
     this.imagePath = const [],
+    this.gender,
+    this.age,
+    this.health,
     this.lat,
     this.lng,
     this.createdAt,
@@ -41,14 +47,18 @@ class Pet {
     imagePath = json['image_path'] != null
         ? json['image_path']
               .toString()
-              .replaceAll('[', '') // Buang [
-              .replaceAll(']', '') // Buang ]
-              .replaceAll('"', '') // Buang "
-              .split(',') // Baru split guna koma
-              .map((e) => e.trim()) // Buang space jika ada
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('"', '')
+              .split(',')
+              .map((e) => e.trim())
               .where((e) => e.isNotEmpty)
               .toList()
         : [];
+
+    gender = json['gender']; // tambahan
+    age = json['age']; // tambahan
+    health = json['health']; // tambahan
 
     lat = json['lat'];
     lng = json['lng'];
@@ -68,6 +78,9 @@ class Pet {
     data['category'] = category;
     data['description'] = description;
     data['image_path'] = imagePath.join(",");
+    data['gender'] = gender; // tambahan
+    data['age'] = age; // tambahan
+    data['health'] = health; // tambahan
     data['lat'] = lat;
     data['lng'] = lng;
     data['created_at'] = createdAt;

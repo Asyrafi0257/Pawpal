@@ -34,6 +34,9 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
   TextEditingController petNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController healthController = TextEditingController();
 
   // single-file legacy (tidak digunakan utk multi) - boleh dikeluarkan
   File? image;
@@ -48,10 +51,14 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
   late double height, width;
 
   @override
+  @override
   void dispose() {
     petNameController.dispose();
     descriptionController.dispose();
     addressController.dispose();
+    genderController.dispose();
+    ageController.dispose();
+    healthController.dispose();
     super.dispose();
   }
 
@@ -236,6 +243,35 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
                       border: OutlineInputBorder(),
                     ),
                     maxLines: 3,
+                  ),
+                  const SizedBox(height: 12),
+                  // gender
+                  TextField(
+                    controller: genderController,
+                    decoration: const InputDecoration(
+                      labelText: 'Gender',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // age
+                  TextField(
+                    controller: ageController,
+                    decoration: const InputDecoration(
+                      labelText: 'Age',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // health
+                  TextField(
+                    controller: healthController,
+                    decoration: const InputDecoration(
+                      labelText: 'Health',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   const SizedBox(height: 12),
 
@@ -530,6 +566,33 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
       );
       return;
     }
+    if (genderController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter gender"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (ageController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter age"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (healthController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter health info"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     // Image validation: require at least 1 image
     if (!kIsWeb && images.isEmpty) {
@@ -637,10 +700,14 @@ class _SubmitPetScreenState extends State<SubmitPetScreen> {
           'descriptions': description,
           'latitude': lat,
           'longitude': lng,
-          // images as JSON encoded array of base64 strings
           'images': jsonEncode(base64Images),
+          // new fields
+          'gender': genderController.text.trim(),
+          'age': ageController.text.trim(),
+          'health': healthController.text.trim(),
         },
       );
+
       print('Server response: ${response.body}');
 
       Navigator.pop(context); // remove loading dialog
