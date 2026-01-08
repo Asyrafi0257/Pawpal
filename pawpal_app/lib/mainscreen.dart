@@ -300,7 +300,7 @@ class _MainScreenState extends State<Mainscreen> {
         .get(
           Uri.parse(
             //api path to get pets
-            '${MyConfig.baseUrl}/pawpal/api/get_my_pets.php?search=$searchQuery',
+            '${MyConfig.baseUrl}/pawpal/api/get_my_pets.php?user_id=${widget.user!.userId}&search=$searchQuery',
           ),
         )
         .then((response) {
