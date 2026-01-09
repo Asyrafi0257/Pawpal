@@ -1,5 +1,7 @@
 import 'dart:convert'; // DITAMBAH
 import 'package:flutter/material.dart';
+
+import 'package:pawpal_app/history_donation.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // DITAMBAH
 import 'package:pawpal_app/loginpage.dart';
 import 'package:pawpal_app/mainscreen.dart';
@@ -126,6 +128,19 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.history, color: Colors.red),
+              title: const Text('Donation History'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyDonationsPage(user: widget.user!),
+                  ),
+                );
+              },
+            ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.settings, color: Colors.grey),
@@ -195,6 +210,20 @@ class _HomeState extends State<Home> {
                       MaterialPageRoute(
                         builder: (context) =>
                             PublicPetListingScreen(user: widget.user),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 30),
+                _buildMenuButton(
+                  title: "History Donation",
+                  image: "assets/images/pet.jpg",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MyDonationsPage(user: widget.user!),
                       ),
                     );
                   },

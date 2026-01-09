@@ -9,6 +9,7 @@ import 'package:pawpal_app/model/user.dart';
 import 'package:pawpal_app/myconfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class Profilescreen extends StatefulWidget {
   User? user;
   Profilescreen({super.key, required this.user});

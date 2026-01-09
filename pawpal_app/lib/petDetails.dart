@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:pawpal_app/donationpage.dart';
 import 'package:pawpal_app/model/pet.dart';
 import 'package:pawpal_app/model/user.dart';
 import 'package:pawpal_app/myconfig.dart';
@@ -248,6 +249,49 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                           icon: const Icon(Icons.pets),
                           label: const Text(
                             'Request to Adopt',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // donation to adopt Button
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            if (widget.user == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please login to request adoption',
+                                  ),
+                                  backgroundColor: Colors.orange,
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DonationPage(
+                                    user: widget.user!,
+                                    pet: widget.pet,
+                                  ), // Nama class page baru anda
+                                ),
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.volunteer_activism),
+                          label: const Text(
+                            'Donation to Adopt',
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(
