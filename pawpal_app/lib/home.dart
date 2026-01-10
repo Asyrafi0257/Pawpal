@@ -27,7 +27,8 @@ class _HomeState extends State<Home> {
   Future<void> _refreshUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userSession = prefs.getString('user_session');
-    if (userSession != null) {
+    if (userSession != null && mounted) {
+      // Tambah mounted
       setState(() {
         Map<String, dynamic> userMap = jsonDecode(userSession);
         widget.user = User.fromJson(userMap);

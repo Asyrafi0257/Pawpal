@@ -82,6 +82,7 @@ class _DonationPageState extends State<DonationPage> {
                               petName: widget.pet.petName,
                               petId: widget.pet.petId.toString(),
                               userId: widget.user.userId.toString(),
+                              ownerId: widget.pet.userId.toString(),
                             ),
                           ),
                         );

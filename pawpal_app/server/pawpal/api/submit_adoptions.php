@@ -3,49 +3,57 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 include 'dbconnect.php';
 
+$input = file_get_contents("php://input");
+$data = json_decode($input, true);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
-    // 1. Ambil data POST daripada Flutter
-    $user_id = $_POST['user_id'] ?? '';
-    $pet_id = $_POST['pet_id'] ?? ''; // Diambil dari widget.pet.petId
-    $donation_type = $_POST['donation_type'] ?? '';
-    $description = $_POST['description'] ?? '';
-    
-    // 2. Validasi: Pastikan field penting tidak kosong
-    if (empty($user_id) || empty($pet_id) || empty($donation_type) || empty($description)) {
+    // Ambil data berdasarkan key yang dihantar oleh Flutter body: {}
+    $adopter_id = $_POST['adopter_id'] ?? ($data['adopter_id'] ?? '');
+    $pet_id     = $_POST['pet_id'] ?? ($data['pet_id'] ?? '');
+    $owner_id   = $_POST['owner_id'] ?? ($data['owner_id'] ?? '');
+    $message    = $_POST['message'] ?? ($data['message'] ?? '');
+
+    // Validasi: owner_id TIDAK BOLEH 0 atau kosong
+    // Validasi: Beritahu data mana yang kosong
+    if (empty($adopter_id) || empty($pet_id) || empty($owner_id) || empty($message)) {
         echo json_encode([
             "status" => "failed", 
-            "message" => "Sila pastikan semua maklumat diisi dengan lengkap."
+            "message" => "Data tidak lengkap: " . 
+                         (empty($adopter_id) ? "adopter_id " : "") .
+                         (empty($pet_id) ? "pet_id " : "") .
+                         (empty($owner_id) ? "owner_id " : "") .
+                         (empty($message) ? "message " : "") . "kosong."
         ]);
         exit;
     }
 
-    // 3. Simpan maklumat ke dalam tbl_donations
-    // Status ditetapkan secara default kepada 'pending'
-    $stmt = $conn->prepare("INSERT INTO tbl_donations (user_id, pet_id, donation_type, description, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())");
-    
-    // "iiss" bermaksud integer (user_id), integer (pet_id), string (type), string (desc)
-    $stmt->bind_param("iiss", $user_id, $pet_id, $donation_type, $description);
+    try {
+        // Nama table: tbl_adoptions (berdasarkan ralat constraint anda)
+        $sql = "INSERT INTO tbl_adoptions (pet_id, adopter_id, owner_id, message, status, created_at) 
+                VALUES (?, ?, ?, ?, 'pending', NOW())";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iiis", $pet_id, $adopter_id, $owner_id, $message);
 
-    if ($stmt->execute()) {
-        echo json_encode([
-            "status" => "success",
-            "message" => "Sumbangan anda telah berjaya dihantar! Kami akan mengemaskini status sumbangan anda dalam masa terdekat."
-        ]);
-    } else {
+        if ($stmt->execute()) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "Permohonan adopt berjaya dihantar!"
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "failed",
+                "message" => "Ralat SQL: " . $stmt->error 
+            ]);
+        }
+        $stmt->close();
+    } catch (Exception $e) {
         echo json_encode([
             "status" => "failed",
-            "message" => "Ralat pangkalan data: " . $stmt->error
+            "message" => "Ralat Sistem: " . $e->getMessage()
         ]);
     }
-
-    $stmt->close();
     $conn->close();
-
-} else {
-    echo json_encode([
-        "status" => "failed", 
-        "message" => "Kaedah permintaan tidak sah."
-    ]);
 }
 ?>

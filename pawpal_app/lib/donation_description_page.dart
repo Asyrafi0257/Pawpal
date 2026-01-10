@@ -8,6 +8,7 @@ class FoodMedicalDonationPage extends StatefulWidget {
   final String? petName;
   final String petId; // Added to match tbl_donations
   final String userId;
+  final String ownerId;
 
   const FoodMedicalDonationPage({
     super.key,
@@ -15,6 +16,7 @@ class FoodMedicalDonationPage extends StatefulWidget {
     required this.petId,
     this.petName,
     required this.userId,
+    required this.ownerId,
   });
 
   @override
@@ -37,11 +39,11 @@ class _FoodMedicalDonationPageState extends State<FoodMedicalDonationPage> {
       final response = await http.post(
         url,
         body: {
-          "user_id":
-              widget.userId, // Replace with dynamic user session ID later
-          "pet_id": widget.petId, // Mapping to your table
-          "donation_type": widget.donationType,
-          "description": widget.petName != null
+          "pet_id": widget.petId.toString(),
+          "adopter_id": widget.userId.toString(),
+          "owner_id": widget.ownerId
+              .toString(), // Contoh: Anda patut dapatkan ID owner pet ini
+          "message": widget.petName != null
               ? "For ${widget.petName}: ${_descriptionController.text}"
               : _descriptionController.text,
         },

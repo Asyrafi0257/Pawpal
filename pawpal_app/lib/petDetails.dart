@@ -614,6 +614,7 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
         body: {
           'pet_id': widget.pet.petId.toString(),
           'adopter_id': widget.user!.userId.toString(),
+          'owner_id': widget.pet.userId.toString(),
           'message': message,
         },
       );
